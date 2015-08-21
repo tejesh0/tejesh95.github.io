@@ -21,6 +21,8 @@
 				<tr>
 					<th st-sort="x">x co-ordinate</th>
 					<th st-sort="y">y co-ordinate</th>
+					<th st-sort="x">normalized x co-ordinate</th>
+					<th st-sort="y">normalized y co-ordinate</th>
 				</tr>
 				<tr>
 					<th colspan="5"><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>
@@ -30,6 +32,8 @@
 				<tr ng-repeat="row in displayedCollection">
 					<td>{{row.x}}</td>
 					<td>{{row.y}}</td>
+					<td>{{row.x_dash}}</td>
+					<td>{{row.y_dash}}</td>
 					<td>
 					<button type="button" ng-click="removeItem(row)" class="btn btn-sm btn-danger">
 						<i class="glyphicon glyphicon-remove-circle">

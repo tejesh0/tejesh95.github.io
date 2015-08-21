@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('myApp.directives')
-    .directive('d3Bars', ['d3', function(d3) {
+    .directive('d3Bars', ['d3','$window', function(d3, $window) {
       return {
         restrict: 'EA',
         scope: {
@@ -13,9 +13,9 @@
         link: function(scope, iElement, iAttrs) {
           var svg = d3.select("#scatterPlot")
               .append("svg")
-              .attr("width", 500)
+              .attr("width", angular.element($window)[0].innerWidth/2)
 
-          console.log("svg",svg)
+          console.log("svg", angular.element($window)[0].innerWidth/2)
 
           // on window resize, re-render d3 canvas
           window.onresize = function() {
@@ -39,7 +39,9 @@
             svg.selectAll("*").remove();
 
             // setup variables
-            var width = 500, height=500, padding = 20;
+            var width = angular.element($window)[0].innerWidth/2,
+                height=angular.element($window)[0].innerHeight/2, 
+                padding = 20;
    
             // 20 is for margins and can be changed
         
@@ -48,9 +50,13 @@
 
             var xScale = d3.scale.linear().range([padding, width - padding * 2]);
             var yScale = d3.scale.linear().range([height - padding, padding]);
-
-             xScale.domain([0, 15]);
-             yScale.domain([0, 15]);
+            var max_x = d3.max(data, function(d){ return d.x;});
+            var max_y = d3.max(data, function(d){ return d.y;});
+            var min_x = d3.min(data, function(d){ return d.x;});
+            var min_y = d3.min(data, function(d){ return d.y;});
+            
+             xScale.domain([0, max_x ]);
+             yScale.domain([0, max_y ]);
             // Define the axes
             var xAxis = d3.svg.axis().scale(xScale)
                 .orient("bottom").ticks(10);
@@ -63,10 +69,14 @@
                   .data(data)
                   .enter()
                   .append("circle")
-                  .attr("cx", function(d,i){ return xScale(d.x);})
-                  .attr("cy", function(d,i){ return yScale(d.y);})
+                  .attr("cx", function(d,i){ return xScale(d.x); })
+                  .attr("cy", function(d,i){ return yScale(d.y); })
                   .attr("r", function(d,i){ return 4;})
                   .attr("fill", function(d,i){ return "orange";})
+                  .transition()
+                  .duration(2000)
+                  .attr("cx", function(d,i){ return xScale( (d.x - min_x)/(max_x - min_x) ); })
+                  .attr("cy", function(d,i){ return yScale( (d.y - min_y)/(max_y - min_y) ); })
 
               // Add the X Axis
               svg.append("g")
