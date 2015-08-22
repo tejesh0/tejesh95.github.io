@@ -19,6 +19,7 @@
 			<table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
 				<thead>
 				<tr>
+					<th st-sort="x">Serial Id</th>
 					<th st-sort="x">x co-ordinate</th>
 					<th st-sort="y">y co-ordinate</th>
 					<th st-sort="x">normalized x co-ordinate</th>
@@ -30,10 +31,13 @@
 				</thead>
 				<tbody>
 				<tr ng-repeat="row in displayedCollection">
-					<td>{{row.x}}</td>
-					<td>{{row.y}}</td>
+					<td><input	type="number" ng-model="row.id" value="rowCollection[{{$index}}]" size='4'></input></td>
+					<td><input	type="number" ng-model="row.x"></input></td>
+					<td><input	type="number" ng-model="row.y"></input></td>
 					<td>{{row.x_dash}}</td>
+				
 					<td>{{row.y_dash}}</td>
+
 					<td>
 					<button type="button" ng-click="removeItem(row)" class="btn btn-sm btn-danger">
 						<i class="glyphicon glyphicon-remove-circle">

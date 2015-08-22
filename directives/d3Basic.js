@@ -54,7 +54,7 @@
             var max_y = d3.max(data, function(d){ return d.y;});
             var min_x = d3.min(data, function(d){ return d.x;});
             var min_y = d3.min(data, function(d){ return d.y;});
-            
+
              xScale.domain([0, max_x ]);
              yScale.domain([0, max_y ]);
             // Define the axes
@@ -77,7 +77,7 @@
                   .duration(2000)
                   .attr("cx", function(d,i){ return xScale( (d.x - min_x)/(max_x - min_x) ); })
                   .attr("cy", function(d,i){ return yScale( (d.y - min_y)/(max_y - min_y) ); })
-
+                  .attr("fill", function(d,i){ return "red";})
               // Add the X Axis
               svg.append("g")
                   .attr("class", "x axis")
